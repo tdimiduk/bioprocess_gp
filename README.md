@@ -65,3 +65,7 @@ A complete example with synthetic data generation is available in `demo.py`.
 ```bash
 python demo.py
 ```
+
+## AI Useage Note
+
+This project was created with the assistance of AI tools (Gemini 3 Pro and Antigravity).
