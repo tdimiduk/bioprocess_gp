@@ -6,6 +6,7 @@ pkgs.mkShell {
     pkgs.python3Packages.pandas
     pkgs.python3Packages.torch
     pkgs.python3Packages.gpytorch
+    pkgs.python3Packages.scipy
     pkgs.uv
   ];
   
