@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 from scipy.ndimage import gaussian_filter1d
 from typing import Dict, List, Tuple, Optional
-from .core import Parameter, Feed, Output
+from .core import Parameter, Feed, Output, GaussianSmoothing
 
 class DataProcessor:
     def __init__(self, parameters: Dict[str, Parameter], feeds: Dict[str, Feed], outputs: Dict[str, Output]):
@@ -20,7 +20,7 @@ class DataProcessor:
         # Sort by run and time
         df = df.sort_values([run_col, time_col])
         
-        for feed_name in self.feeds:
+        for feed_name, feed_obj in self.feeds.items():
             # We want to smooth the feed events to create a continuous feature.
             # 1. Extract the feed column (spikes)
             # 2. Apply Gaussian smoothing to spread the spike
@@ -28,7 +28,12 @@ class DataProcessor:
             
             def smooth_and_cumsum(group):
                 feed_signal = group[feed_name].values.astype(float)
-                smoothed_feed = gaussian_filter1d(feed_signal, sigma=1.0)
+                
+                sigma = 1.0
+                if feed_obj.smoothing and isinstance(feed_obj.smoothing, GaussianSmoothing):
+                    sigma = feed_obj.smoothing.sigma
+                
+                smoothed_feed = gaussian_filter1d(feed_signal, sigma=sigma)
                 return pd.Series(np.cumsum(smoothed_feed), index=group.index)
 
             # Use include_groups=False to avoid deprecation warning and potential issues

@@ -1,2 +1,2 @@
 from .api import BioprocessModel, FittedBioprocessModel
-from .core import Normal, LogNormal, Uniform, Parameter, Output, Feed
+from .core import Normal, LogNormal, Uniform, Parameter, Output, Feed, GaussianSmoothing

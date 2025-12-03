@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import torch
 import gpytorch
-from bioprocess_gp import BioprocessModel, Normal, Parameter, Output, Feed
+from bioprocess_gp import BioprocessModel, Normal, Parameter, Output, Feed, GaussianSmoothing
 
 # Set seeds for reproducibility
 np.random.seed(42)
@@ -55,7 +55,7 @@ def main():
             Parameter("temperature", bounds=(35.0, 39.0), prior=Normal(37.0, 1.0))
         ],
         feeds=[
-            Feed("glucose_feed")
+            Feed("glucose_feed", smoothing=GaussianSmoothing(sigma=2.0))
         ],
         outputs=[
             Output("titer")

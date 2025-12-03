@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Optional, Tuple, Union
 
 @dataclass
@@ -24,8 +24,12 @@ class Parameter:
     kernel: Optional[str] = None
 
 @dataclass
+class GaussianSmoothing:
+    sigma: float = 1.0
+
+@dataclass
 class Feed(Parameter):
-    pass
+    smoothing: GaussianSmoothing = field(default_factory=GaussianSmoothing)
 
 @dataclass
 class Output:
